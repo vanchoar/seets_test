@@ -103,6 +103,7 @@ class Encryptions {
   }
 
   public function decrypt($data) {
+
       $ivlen = openssl_cipher_iv_length($cipher = $this->encryption_method);
 
       $c = base64_decode($data);
