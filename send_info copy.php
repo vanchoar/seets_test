@@ -124,13 +124,7 @@ class Database_operations {
     public function insert_into_table($year, $day){
         require('db.php');
         $sql = "INSERT INTO test_table (year,day) VALUES ('".$year."', '".$day."')";
-        $conn->query($sql);
-    }
-
-    public function select_from_table(){
-        require('db.php');
-        $sql2 = "SELECT year, day FROM test_table";
-        return $res = $conn->query($sql2);
+        return $conn->query($sql);
     }
 }
 
@@ -173,26 +167,28 @@ foreach($years_and_encrypted_days as $year_encr_day){
     $data_separated = explode(' ', $year_encr_day);
     $year = mysqli_real_escape_string($conn, $data_separated[0]);
     $day = mysqli_real_escape_string($conn, $data_separated[1]);
-  // send year + encripted day to database
+
     $db_operations->insert_into_table($year, $day);
 }
 
+// send year + encripted day to database
+$sql2 = "SELECT year, day FROM test_table";
+$res = $conn->query($sql2);
 
-$database_entries = $db_operations->select_from_table();
 
-
-$decrypted_results_list = [];
-while($db_entry = mysqli_fetch_assoc($database_entries)) {
+$rows = [];
+while($r = mysqli_fetch_assoc($res)) {
   
     //decrypt Christmas day
-    $original_christ_day = $encryptions->decrypt($db_entry['day']);
+    $original_christ_day = $encryptions->decrypt($r['day']);
 
-    $db_entry['day'] = $original_christ_day;
-    array_push($decrypted_results_list, $db_entry);
+    $r['day'] = $original_christ_day;
+    array_push($rows, $r);
+
 }
 
 //Send the array back as a JSON object
-echo json_encode($decrypted_results_list);
+echo json_encode($rows);
 
 
 ?>
