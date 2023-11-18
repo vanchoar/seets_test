@@ -1,7 +1,7 @@
 <?php
 
 // calculate previous 30 primenumber years
-class Calculations { 
+class Math { 
 
     public function isPrimeNumber($number){
       $count=0;  

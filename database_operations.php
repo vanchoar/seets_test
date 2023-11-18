@@ -13,10 +13,9 @@ class Database_operations {
         $conn->query($sql);
     }
 
-    public function select_from_table(){
+    public function select_from_table($year, $day){
         require('db.php');
-        $sql2 = "SELECT year, day FROM test_table";
-        return $res = $conn->query($sql2);
+        return $sql2 = "SELECT ".$year.", ".$day." FROM test_table";
     }
     
 }

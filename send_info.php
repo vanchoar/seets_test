@@ -2,8 +2,8 @@
 <?php
 require('db.php');
 
-// Calculations class
-include('calculations.php');
+// Math calculations class
+include('math.php');
 
 // Encryptions class
 include('encryptions.php');
@@ -26,7 +26,7 @@ $db_operations = new Database_operations();
 
 $years = $year_calculations->calculate_30_primenumber_years($year);
 
-$existing_years = $year_calculations->already_inserted_years();
+$existing_years = $year_calculations->return_already_inserted_years();
 
 // match new years with existing years
 $unique_years = array_unique( array_merge($years, $existing_years) );
@@ -50,7 +50,8 @@ foreach($years_and_encrypted_days as $year_encr_day){
 }
 
 
-$database_entries = $db_operations->select_from_table();
+$database_entries = $db_operations->select_from_table('year', 'day');
+$database_entries = $conn->query($database_entries);
 
 
 $decrypted_results_list = [];
