@@ -15,7 +15,11 @@ class Database_operations {
 
     public function select_from_table($year, $day){
         require('db.php');
-        return $sql2 = "SELECT ".$year.", ".$day." FROM test_table";
+        if($day == ''){
+          return $sql2 = "SELECT ".$year." FROM test_table";
+        }else{
+          return $sql2 = "SELECT ".$year.", ".$day." FROM test_table";
+        }
     }
     
 }
