@@ -1,23 +1,33 @@
 $(document).ready(function () {
     $("#year-form").submit(function (event) {
-      var formData = {
-        year: $("#year").val(),
-      };
-  
-      $.ajax({
-        type: "POST",
-        url: "send_info.php",
-        data: formData,
-        dataType: "json",
-        encode: true,
-      }).done(function (data) {
-          // console.log(data);
-          $('#table_info').empty();
-          $.each(data, function(k, v) {
-              $("#table_info").append('<tr> <td>' + v.year + '</td> <td>'+ v.day +' </td> </tr>');
+      year_input = $("#year").val();
+
+      if(year_input < 1 || year_input > 9999){
+          alert('Please enter a year between 1 and 9999!');
+      }
+      else 
+      {
+          var formData = {
+            year: year_input,
+          };
+      
+          $.ajax({
+            type: "POST",
+            url: "send_info.php",
+            data: formData,
+            dataType: "json",
+            encode: true,
+          }).done(function (data) {
+              // console.log(data);
+              $('#table_info').empty();
+              $.each(data, function(k, v) {
+                  $("#table_info").append('<tr> <td>' + v.year + '</td> <td>'+ v.day +' </td> </tr>');
+              });
           });
-      });
-  
-      event.preventDefault();
+      
+          event.preventDefault();   
+      }
+
+
     });
 });
